@@ -1,27 +1,11 @@
-//  find the parent of the input text field I want to target
-// bind to it
-// prevent default submit behavior
-// grab the text entered into the input
-// store it
-// insert it into a new <li> element, after the last li, with the proper elements and classes
-
-// listen for when the 'Check' button is clicked
-// use .closest to traverse to the nearest li and toggle its class
-// add the class to the span element that will call the CSS that will strike through event.currentTarget
-
-// listen for when the 'Delete' button is clicked
-// use .closest to target the li itself
-// use .remove method to permanently remove the <li> 
-
-
 'use strict'
 
 function addToList() {
   $('#js-shopping-list-form').submit(function(event) {
     event.preventDefault();
-    const userInput = $(event.currentTarget).find('#shopping-list-entry');
-    //$('#js-shopping-list-form').after(`<p>${userInput.val()}</p>`);
 
+    const userInput = $(this).find('#shopping-list-entry');
+    
     $('ul').append(`<li>
       <span class="shopping-item">${userInput.val()}</span>
       <div class="shopping-item-controls">
@@ -38,4 +22,22 @@ function addToList() {
   });
 }
 
+function removeFromList() {
+  $('.shopping-list').on('click', '.shopping-item-delete',function(event) {
+    let targetButton = $(event.currentTarget);
+   
+    targetButton.closest('li').remove();
+  })
+}
+
+function checkOffList() {
+  $('.shopping-list').on('click', '.shopping-item-toggle', function(event) {
+    $(this).parent().siblings('.shopping-item').toggleClass('shopping-item__checked')
+  });
+}
+
 addToList();
+
+removeFromList();
+
+checkOffList();
